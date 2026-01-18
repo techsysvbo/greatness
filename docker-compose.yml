@@ -1,0 +1,81 @@
+services:
+  # --- Infrastructure ---
+  gateway:
+    build: ./services/gateway
+    ports:
+      - "80:80"
+      - "8080:80"
+    depends_on:
+      - auth-service
+      - profile-service
+      - client
+    networks:
+      - diaspora-network
+
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: diaspora_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - diaspora-network
+
+  redis:
+    image: redis:alpine
+    restart: always
+    networks:
+      - diaspora-network
+
+  # --- Backend Services ---
+  auth-service:
+    build: ./services/auth
+    environment:
+      - DATABASE_URL=postgres://admin:password@db:5432/diaspora_db
+      - JWT_SECRET=dev_secret_key_change_me
+    depends_on:
+      - db
+      - redis
+    networks:
+      - diaspora-network
+
+  profile-service:
+    build: ./services/profile
+    environment:
+      - DATABASE_URL=postgres://admin:password@db:5432/diaspora_db
+      - JWT_SECRET=dev_secret_key_change_me
+    depends_on:
+      - db
+    networks:
+      - diaspora-network
+
+  # --- AI Services ---
+  ai-service:
+    build: ./services/ai
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY} # Make sure to set this in .env if needed
+    networks:
+      - diaspora-network
+
+  # --- Frontend ---
+  client:
+    build: ./client
+    ports:
+      - "3000:3000" # Expose client directly for dev if needed, typically access via gateway
+    environment:
+      - VITE_API_URL=/api
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    networks:
+      - diaspora-network
+
+networks:
+  diaspora-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
