@@ -34,21 +34,26 @@ services:
   auth-service:
     build: ./services/auth
     environment:
-      - DATABASE_URL=postgres://admin:password@db:5432/diaspora_db
-      - JWT_SECRET=dev_secret_key_change_me
+      DATABASE_URL: postgres://admin:password@db:5432/diaspora_db
+      JWT_SECRET: dev_secret_key_change_me1010
     depends_on:
       - db
       - redis
     networks:
       - diaspora-network
 
-  profile-service:
-    build: ./services/profile
+  profile-service:                # ✅ FIXED (now inside services)
+    build:
+      context: ./services/profile
+    container_name: ag-workspace-profile-service
     environment:
-      - DATABASE_URL=postgres://admin:password@db:5432/diaspora_db
-      - JWT_SECRET=dev_secret_key_change_me
+      DATABASE_URL: postgres://admin:password@db:5432/diaspora_db
+      JWT_SECRET: dev_secret_key_change_me
+      PORT: 4001
     depends_on:
       - db
+    ports:
+      - "4001:4001"
     networks:
       - diaspora-network
 
@@ -56,7 +61,7 @@ services:
   ai-service:
     build: ./services/ai
     environment:
-      - OPENAI_API_KEY=${OPENAI_API_KEY} # Make sure to set this in .env if needed
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
     networks:
       - diaspora-network
 
@@ -64,9 +69,9 @@ services:
   client:
     build: ./client
     ports:
-      - "3000:3000" # Expose client directly for dev if needed, typically access via gateway
+      - "3000:3000"
     environment:
-      - VITE_API_URL=/api
+      VITE_API_URL: /api
     volumes:
       - ./client:/app
       - /app/node_modules

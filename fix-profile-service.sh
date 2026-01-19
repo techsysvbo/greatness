@@ -1,3 +1,10 @@
+#!/bin/bash
+set -e
+
+echo "=== Step 1: Writing fixed TypeScript files ==="
+
+# profileController.ts
+cat > services/profile/src/controllers/profileController.ts << 'EOF'
 import { Request, Response } from 'express';
 import pool from '../db';
 import { AuthRequest } from '../middleware/authMiddleware';
@@ -74,3 +81,45 @@ export const updateProfile = async (req: AuthRequest, res: Response) => {
         res.status(500).json({ message: 'Failed to update profile', detail: (err as Error).message });
     }
 };
+EOF
+
+# profileRoutes.ts
+cat > services/profile/src/routes/profileRoutes.ts << 'EOF'
+import { Router } from 'express';
+import { getProfile, updateProfile } from '../controllers/profileController';
+import { authMiddleware } from '../middleware/authMiddleware';
+
+const router = Router();
+
+router.get('/me', authMiddleware, getProfile);
+router.put('/me', authMiddleware, updateProfile);
+
+export default router;
+EOF
+
+echo "=== Step 2: Ensuring profiles table exists ==="
+sleep 5
+
+docker exec -i ag-workspace-db-1 psql -U admin -d diaspora_db << 'EOSQL'
+CREATE TABLE IF NOT EXISTS profiles (
+    user_id SERIAL PRIMARY KEY,
+    display_name VARCHAR(255),
+    bio TEXT,
+    location VARCHAR(255),
+    zip_code VARCHAR(20),
+    profession VARCHAR(255),
+    interests TEXT,
+    privacy_settings JSONB,
+    country VARCHAR(100),
+    city VARCHAR(100),
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+EOSQL
+
+echo "=== Step 3: Rebuilding profile-service Docker image ==="
+docker-compose build --no-cache profile-service
+
+echo "=== Step 4: Starting profile-service container ==="
+docker-compose up -d profile-service
+
+echo "✅ Profile service fixed and running!"
