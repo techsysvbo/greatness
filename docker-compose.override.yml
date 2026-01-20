@@ -1,3 +1,5 @@
 services:
   profile-service:
-    command: sh -c "npm install && npm run build && node dist/server.js"
+    command:
+    - npm
+    - start

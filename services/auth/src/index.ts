@@ -18,6 +18,7 @@ app.use(express.json());
 app.use('/auth', authRoutes); // Mounted at /auth, so /auth/register will be the path
 
 // Basic health check
+app.get("/health", (_req, res) => res.status(200).send("ok"));
 app.get('/', (req, res) => {
     res.send('Auth Service is running');
 });

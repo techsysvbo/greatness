@@ -1,17 +1,15 @@
 services:
-  # --- Infrastructure ---
   gateway:
     build: ./services/gateway
     ports:
-      - "80:80"
-      - "8080:80"
+    - 80:80
+    - 8080:80
     depends_on:
-      - auth-service
-      - profile-service
-      - client
+    - auth-service
+    - profile-service
+    - client
     networks:
-      - diaspora-network
-
+    - diaspora-network
   db:
     image: postgres:15-alpine
     restart: always
@@ -20,67 +18,56 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: diaspora_db
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+    - postgres_data:/var/lib/postgresql/data
     networks:
-      - diaspora-network
-
+    - diaspora-network
   redis:
     image: redis:alpine
     restart: always
     networks:
-      - diaspora-network
-
-  # --- Backend Services ---
+    - diaspora-network
   auth-service:
     build: ./services/auth
     environment:
       DATABASE_URL: postgres://admin:password@db:5432/diaspora_db
       JWT_SECRET: dev_secret_key_change_me1010
     depends_on:
-      - db
-      - redis
+    - db
+    - redis
     networks:
-      - diaspora-network
-
-  profile-service:                # ✅ FIXED (now inside services)
+    - diaspora-network
+  profile-service:
     build:
       context: ./services/profile
-    container_name: ag-workspace-profile-service
     environment:
       DATABASE_URL: postgres://admin:password@db:5432/diaspora_db
       JWT_SECRET: dev_secret_key_change_me
       PORT: 4001
     depends_on:
-      - db
+    - db
     ports:
-      - "4001:4001"
+    - 4001:4001
     networks:
-      - diaspora-network
-
-  # --- AI Services ---
+    - diaspora-network
   ai-service:
     build: ./services/ai
     environment:
       OPENAI_API_KEY: ${OPENAI_API_KEY}
     networks:
-      - diaspora-network
-
-  # --- Frontend ---
+    - diaspora-network
   client:
     build: ./client
     ports:
-      - "3000:3000"
+    - 3000:3000
     environment:
       VITE_API_URL: /api
     volumes:
-      - ./client:/app
-      - /app/node_modules
+    - ./client:/app
+    - /app/node_modules
     networks:
-      - diaspora-network
-
+    - diaspora-network
 networks:
   diaspora-network:
     driver: bridge
-
 volumes:
-  postgres_data:
+  postgres_data: null
