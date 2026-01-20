@@ -66,10 +66,10 @@ const Home = () => {
                     Connect, Share, and Grow with your global community.
                 </p>
                 <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-                    <Link to="/register" style={{ padding: '0.75rem 1.5rem', background: 'var(--color-primary)', borderRadius: '0.5rem', fontWeight: 'bold' }}>
+                    <Link to="/api/auth/api/auth/auth/api/auth/auth/register" style={{ padding: '0.75rem 1.5rem', background: 'var(--color-primary)', borderRadius: '0.5rem', fontWeight: 'bold' }}>
                         Join Now
                     </Link>
-                    <Link to="/login" style={{ padding: '0.75rem 1.5rem', border: '1px solid var(--color-primary)', borderRadius: '0.5rem', fontWeight: 'bold' }}>
+                    <Link to="/api/auth/login" style={{ padding: '0.75rem 1.5rem', border: '1px solid var(--color-primary)', borderRadius: '0.5rem', fontWeight: 'bold' }}>
                         Login
                     </Link>
                 </div>

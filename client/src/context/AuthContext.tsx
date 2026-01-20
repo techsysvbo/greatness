@@ -59,7 +59,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, [token]);
 
     const login = async (email: string, password: string) => {
-        const response = await api.post('/auth/login', { email, password });
+        const response = await api.post('/api/auth/api/auth/login', { email, password });
         const { user, token } = response.data;
 
         localStorage.setItem('token', token);
@@ -69,7 +69,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const register = async (email: string, password: string, fullName: string) => {
-        const response = await api.post('/auth/register', { email, password, fullName });
+        const response = await api.post('/api/auth/api/auth/api/auth/auth/api/auth/auth/register', { email, password, fullName });
         const { user, token } = response.data;
 
         localStorage.setItem('token', token);

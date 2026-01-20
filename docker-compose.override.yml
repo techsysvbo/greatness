@@ -3,3 +3,5 @@ services:
     command:
     - npm
     - start
+    environment:
+      DISABLE_AUTH: 'true'
