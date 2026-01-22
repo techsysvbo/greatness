@@ -11,7 +11,7 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
     const { isAuthenticated, isLoading } = useAuth();
 
     if (isLoading) return <div>Loading...</div>;
-    if (!isAuthenticated) return <Navigate to="/api/auth/auth/login" />;
+    if (!isAuthenticated) return <Navigate to="/login" />;
 
     return children;
 };
@@ -31,8 +31,8 @@ const Navigation = () => {
                     </>
                 ) : (
                     <>
-                        <Link to="/api/auth/auth/login">Login</Link>
-                        <Link to="/api/auth/auth/register">Register</Link>
+                        <Link to="/login">Login</Link>
+                        <Link to="/register">Register</Link>
                     </>
                 )}
             </nav>
@@ -53,8 +53,8 @@ function App() {
                     <Navigation />
                     <Routes>
                         <Route path="/" element={<Home />} />
-                        <Route path="/api/auth/auth/login" element={<Login />} />
-                        <Route path="/api/auth/auth/register" element={<Register />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
                         <Route path="/profile" element={
                             <ProtectedRoute>
                                 <Profile />

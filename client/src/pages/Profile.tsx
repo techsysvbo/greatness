@@ -27,7 +27,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await api.get('/api/profile/api/profile/profile/me');
+                const response = await api.get('/api/profile/api/profile/api/profile/api/profile/profile/me');
                 const data = response.data;
                 setProfile({
                     bio: data.bio,
@@ -57,7 +57,7 @@ const Profile = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await api.put('/api/profile/api/profile/profile/me', profile);
+            const response = await api.put('/api/profile/api/profile/api/profile/api/profile/profile/me', profile);
             const data = response.data;
             setProfile({
                 bio: data.bio,

@@ -11,6 +11,11 @@ const port = Number(process.env.PORT || 4001);
 
 app.use(cors());
 app.use(express.json());
+
+app.use((req, _res, next) => {
+  console.log(`[REQ] ${req.method} ${req.url} auth=${req.headers.authorization ? "yes" : "no"}`);
+  next();
+});
 app.use('/profile', profileRoutes);
 
 

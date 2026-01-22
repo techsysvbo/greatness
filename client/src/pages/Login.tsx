@@ -49,7 +49,7 @@ const Login = () => {
                 <button type="submit" style={{ marginTop: '0.5rem' }}>Log In</button>
             </form>
             <p style={{ marginTop: '1.5rem', textAlign: 'center', color: 'var(--color-text-muted)' }}>
-                Don't have an account? <Link to="/api/auth/auth/register" style={{ color: 'var(--color-primary)' }}>Sign up</Link>
+                Don't have an account? <Link to="/register" style={{ color: 'var(--color-primary)' }}>Sign up</Link>
             </p>
         </div>
     );
