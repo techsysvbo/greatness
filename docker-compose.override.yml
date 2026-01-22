@@ -5,3 +5,7 @@ services:
     - start
     environment:
       DISABLE_AUTH: 'true'
+      JWT_SECRET: dev_secret_key_change_me1010
+  auth-service:
+    environment:
+      JWT_SECRET: dev_secret_key_change_me1010

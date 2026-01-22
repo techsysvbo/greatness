@@ -31,7 +31,7 @@ const Register = () => {
 
             // 2. Update Profile with Location Data immediately
             try {
-                await api.put('/profile/me', {
+                await api.put('/api/profile/api/profile/profile/me', {
                     country,
                     state,
                     city,
@@ -144,7 +144,7 @@ const Register = () => {
                 </button>
             </form>
             <p style={{ marginTop: '1.5rem', textAlign: 'center', color: 'var(--color-text-muted)' }}>
-                Already have an account? <Link to="/api/auth/login" style={{ color: 'var(--color-primary)' }}>Log in</Link>
+                Already have an account? <Link to="/api/auth/auth/login" style={{ color: 'var(--color-primary)' }}>Log in</Link>
             </p>
         </div>
     );

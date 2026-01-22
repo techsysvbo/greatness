@@ -41,7 +41,7 @@ services:
       context: ./services/profile
     environment:
       DATABASE_URL: postgres://admin:password@db:5432/diaspora_db
-      JWT_SECRET: dev_secret_key_change_me
+      JWT_SECRET: dev_secret_key_change_me1010
       PORT: 4001
     depends_on:
     - db

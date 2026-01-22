@@ -43,7 +43,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
                 try {
                     // Optional: validate token or fetch fresh profile
-                    await api.get('/profile/me');
+                    await api.get('/api/profile/api/profile/profile/me');
                 } catch (error: any) {
                     if (error.response?.status !== 404) {
                         // If error is NOT 404 (meaning token might be invalid), logout
@@ -59,7 +59,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, [token]);
 
     const login = async (email: string, password: string) => {
-        const response = await api.post('/api/auth/api/auth/login', { email, password });
+        const response = await api.post('/api/auth/auth/login', { email, password });
         const { user, token } = response.data;
 
         localStorage.setItem('token', token);
@@ -69,7 +69,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const register = async (email: string, password: string, fullName: string) => {
-        const response = await api.post('/api/auth/api/auth/api/auth/auth/api/auth/auth/register', { email, password, fullName });
+        const response = await api.post('/api/auth/auth/register', { email, password, fullName });
         const { user, token } = response.data;
 
         localStorage.setItem('token', token);
